@@ -164,7 +164,7 @@ document
     saveWishlistToStorage();
   });
 
-// Save wishlist to local storage, pliz work
+// Save wishlist to local storage, needs to be debugged, does not work...
 function saveWishlistToStorage() {
   const wishlist = document.getElementById("wish-list");
   const items = Array.from(wishlist.children).map((item) => {
@@ -198,3 +198,12 @@ function loadWishlistFromStorage() {
 
 // Load when the page loads
 window.onload = loadWishlistFromStorage;
+
+//To do:
+
+//Debugg saving to local storage
+//Fix norwegian alphabet on sorting
+//Fix category bar over the wish list/below the hamburger sorting menue
+//Make the category bar move together with the categories so that [price number] is always beneath price etc.
+//Clean up comments to make it look more serious/profesional lol lol
+//Next time remember your meds so you dont fuck up the whole day by oversleeping bruh

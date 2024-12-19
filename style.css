@@ -1,0 +1,252 @@
+@import url("https://fonts.googleapis.com/css2?family=Meddon&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap");
+/* "Meddon", "Quicksand", "Poppins" */
+
+/*Main styling*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+main {
+  background-image: url(Photos/Background-big.png);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+  background-position: center;
+  width: 100wv;
+  height: 150vh;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+}
+
+.main-box {
+  height: 120vh;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
+  background-color: white;
+  border-radius: 50px;
+  margin-top: 50px;
+  overflow: hidden;
+  /*Vurdered å legg till skygge BÅDE til venstre og høgre, men korleis?*/
+}
+
+/*"Hero"*/
+
+.background-small {
+  background-image: url(/Photos/background-small.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+  height: 45vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 50px 50px 0px 0px;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  font-family: "meddon", "Gill Sans", "Trebuchet MS", sans-serif;
+  color: #c12220;
+  font-size: 48px; /* You can adjust the size */
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 1),
+    -2px 2px 0px rgba(255, 255, 255, 1), 2px -2px 0px rgba(255, 255, 255, 1),
+    -2px -2px 0px rgba(255, 255, 255, 1);
+  margin: 15px;
+}
+
+input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #d6d6d6bf;
+  outline: none;
+  border: none;
+  padding: 5px 25px;
+  border-radius: 15px;
+  margin: 5px;
+  gap: 25px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  font-family: "Quicksand", "Times New Roman", Times, serif;
+  font-size: large;
+}
+
+#add-to-list {
+  background-color: #228b22;
+  outline: none;
+  border: none;
+  padding: 5px 25px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  color: white;
+  font-size: large;
+  margin: 15px 0px 25px 0px;
+}
+
+#add-to-list:hover {
+  background-color: #2e9e2e;
+  cursor: pointer;
+}
+
+/* List*/
+
+.sort-by {
+  font-family: "Quicksand", "Times New Roman", Times, serif;
+  font-weight: 400;
+  background-color: #d6d6d6bf;
+  color: #00000075;
+  outline: none;
+  border: none;
+  padding: 5px 25px;
+  border-radius: 15px;
+  margin: 25px 0px 15px 0px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  font-size: large;
+  width: 40%;
+}
+
+.sort-by:hover {
+  background-color: #f0f0f0;
+  color: #555555;
+  cursor: pointer;
+}
+
+/* Gonna fix this another time
+
+.categories {
+  font-family: "Quicksand", "Times New Roman", Times, serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  padding: 0px 25px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  background-color: white;
+}
+
+#price {
+  padding: 0px 15px 0px 60px;
+}
+
+.fake-button-div {
+  display: flex;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  flex-direction: row;
+  gap: 0;
+}
+
+.fake-edit,
+.fake-delete {
+  background-color: white;
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 10px 10px 10px 10px;
+} */
+
+/* List boxes*/
+
+#wish-list {
+  display: flex;
+  flex-direction: column;
+  font-family: "Quicksand", "Times New Roman", Times, serif;
+  font-weight: 600;
+  color: black;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.test-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #d6d6d6bf;
+  text-decoration: none;
+  padding: 5px 25px;
+  border-radius: 15px;
+  margin: 15px 0px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+}
+
+.test-div p,
+.test-div a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: calc(100% / 3 - 15px);
+}
+
+/* Buttons on wishlist*/
+.button-div {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-direction: row;
+  gap: 0;
+}
+
+.edit {
+  background-color: #b8860b;
+  border: none;
+  color: white;
+  padding: 5px 25px;
+  border-radius: 10px 0px 0px 10px;
+}
+
+.delete {
+  background-color: #c12220;
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.edit:hover {
+  background-color: #9e7c0f;
+  cursor: pointer;
+}
+
+.delete:hover {
+  background-color: #e02e2d;
+  cursor: pointer;
+}

@@ -1,32 +1,60 @@
-document.getElementById("add-to-list").addEventListener("click", function () {
-  const wish = document.getElementById("Your-wish").value;
-  const price = document.getElementById("Price").value;
-  const link = document.getElementById("Link").value;
+// Wait for the DOM to load before executing code
+document.addEventListener("DOMContentLoaded", () => {
+  const addToListButton = document.getElementById("add-to-list");
+  const wishListDiv = document.getElementById("wish-list");
+  const sortOptions = document.getElementById("sort-options");
 
-  // Function to create a wishlist item
+  //Save the wishlist to localStorage
+  function saveWishlistToStorage() {
+    const items = Array.from(wishListDiv.children).map((item) => {
+      const link =
+        item.children[0].tagName === "A" ? item.children[0].href : "";
+      return {
+        wish: item.children[0].textContent,
+        price: item.children[1].textContent,
+        link: link,
+        date: item.children[2].textContent,
+      };
+    });
+    localStorage.setItem("wishlist", JSON.stringify(items));
+  }
+
+  //Load the wishlist from localStorage
+  function loadWishlistFromStorage() {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    wishlist.forEach((item) => {
+      const newItem = createWishlistItem(
+        item.wish,
+        item.price,
+        item.link,
+        item.date
+      );
+      wishListDiv.appendChild(newItem);
+    });
+  }
+
+  //function for wishlist
   function createWishlistItem(wish, price, link, date) {
     const newItem = document.createElement("div");
     newItem.classList.add("test-div");
 
-    // Create wish with or without link
+    // Wish element (with or without link)
     const wishElement = document.createElement(link ? "a" : "p");
     wishElement.textContent = wish;
-
     if (link) {
-      wishElement.href = link; // makes sure it's a valid link
-      wishElement.target = "_blank"; // Apparently this makes you open it in new window
-      wishElement.rel = "noopener noreferrer"; // Adds security
+      wishElement.href = link;
+      wishElement.target = "_blank";
+      wishElement.rel = "noopener noreferrer";
     }
 
-    // Create price element
+    // Price and Date elements
     const priceElement = document.createElement("p");
     priceElement.textContent = price;
 
-    // Create date element
     const dateElement = document.createElement("p");
     dateElement.textContent = date;
 
-    // Create button div for buttons
+    // Buttons for edit and delete
     const buttonDiv = document.createElement("div");
     buttonDiv.classList.add("button-div");
 
@@ -41,7 +69,7 @@ document.getElementById("add-to-list").addEventListener("click", function () {
     buttonDiv.appendChild(editButton);
     buttonDiv.appendChild(deleteButton);
 
-    // Add all the stuff to the new div
+    // Append all elements
     newItem.appendChild(wishElement);
     newItem.appendChild(priceElement);
     newItem.appendChild(dateElement);
@@ -50,66 +78,72 @@ document.getElementById("add-to-list").addEventListener("click", function () {
     return newItem;
   }
 
-  //Letse gooo
-  if (wish && price) {
-    const wishlist = document.getElementById("wish-list");
+  //Clear input fields
+  function clearInputs() {
+    document.getElementById("Your-wish").value = "";
+    document.getElementById("Price").value = "";
+    document.getElementById("Link").value = "";
+  }
 
-    // Create a div for the items
+  //Display a message if required fields are missing
+
+  function displayMessage(message) {
+    const messageDiv =
+      document.getElementById("error-message") || document.createElement("div");
+    messageDiv.id = "error-message";
+    messageDiv.style.color = "red";
+    messageDiv.textContent = message;
+    document.querySelector(".main-box").prepend(messageDiv);
+  }
+
+  // Handle adding a new wishlist item
+  addToListButton.addEventListener("click", () => {
+    const wish = document.getElementById("Your-wish").value.trim();
+    const price = document.getElementById("Price").value.trim();
+    const link = document.getElementById("Link").value.trim();
+
+    if (!wish || !price) {
+      // Display error message if required fields are empty
+      displayMessage("Please fill in both the wish and price.");
+      return;
+    }
+
+    // Clear any existing error message
+    const existingMessage = document.getElementById("error-message");
+    if (existingMessage) existingMessage.remove();
+
     const newItem = createWishlistItem(
       wish,
       price,
       link,
       new Date().toLocaleDateString()
     );
-
-    // Add to wishlist
-    wishlist.appendChild(newItem);
-
-    // Save the wishlist to local storage
+    wishListDiv.appendChild(newItem);
     saveWishlistToStorage();
-
-    // Clear input fields
     clearInputs();
-  } else {
-    alert("Please fill in both the wish and price fields.");
-  }
-});
+  });
 
-// Function to clear your input fields
-function clearInputs() {
-  document.getElementById("Your-wish").value = "";
-  document.getElementById("Price").value = "";
-  document.getElementById("Link").value = "";
-}
+  //Handle edit and delete actions
+  wishListDiv.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete")) {
+      e.target.closest(".test-div").remove();
+      saveWishlistToStorage();
+    } else if (e.target.classList.contains("edit")) {
+      const item = e.target.closest(".test-div").children;
+      document.getElementById("Your-wish").value = item[0].textContent;
+      document.getElementById("Price").value = item[1].textContent;
+      document.getElementById("Link").value =
+        item[0].tagName === "A" ? item[0].href : "";
+      e.target.closest(".test-div").remove();
+      saveWishlistToStorage();
+    }
+  });
 
-// Add event listener buttons
-document.getElementById("wish-list").addEventListener("click", function (e) {
-  if (e.target.classList.contains("delete")) {
-    e.target.closest(".test-div").remove();
+  //Handle sorting wishlist items
+  sortOptions.addEventListener("change", () => {
+    const items = Array.from(wishListDiv.children);
+    const sortBy = sortOptions.value;
 
-    // Save the updated list to local storage
-    saveWishlistToStorage();
-  } else if (e.target.classList.contains("edit")) {
-    const item = e.target.closest(".test-div").children;
-    document.getElementById("Your-wish").value = item[0].textContent;
-    document.getElementById("Price").value = item[1].textContent;
-    document.getElementById("Link").value =
-      item[0].tagName === "A" ? item[0].href : "";
-    e.target.closest(".test-div").remove();
-
-    saveWishlistToStorage();
-  }
-});
-
-// Sort items
-document
-  .getElementById("sort-options")
-  .addEventListener("change", function (e) {
-    const sortBy = e.target.value;
-    const wishlist = document.getElementById("wish-list");
-    const items = Array.from(wishlist.children);
-
-    //Sort by price low-high
     items.sort((a, b) => {
       if (sortBy === "low-to-high") {
         return (
@@ -117,33 +151,30 @@ document
           parseFloat(b.children[1].textContent)
         );
       }
-      //sort by price high-low
       if (sortBy === "high-to-low") {
         return (
           parseFloat(b.children[1].textContent) -
           parseFloat(a.children[1].textContent)
         );
       }
-      //sort by alphabet a-å, what does it not work with norwegian letters?
       if (sortBy === "a-z") {
         return a.children[0].textContent.localeCompare(
-          b.children[0].textContent
+          b.children[0].textContent,
+          "no"
         );
       }
-      //sort by alphabet å-a, guess we do it without æøå...
       if (sortBy === "z-a") {
         return b.children[0].textContent.localeCompare(
-          a.children[0].textContent
+          a.children[0].textContent,
+          "no"
         );
       }
-      // sort by date new (how do i test if this works lol, idk how to change the dates)
       if (sortBy === "newest") {
         return (
           new Date(b.children[2].textContent) -
           new Date(a.children[2].textContent)
         );
       }
-      //sort by date old
       if (sortBy === "oldest") {
         return (
           new Date(a.children[2].textContent) -
@@ -153,52 +184,14 @@ document
       return 0;
     });
 
-    // Delete and re-upload the wishlist items?
-    while (wishlist.firstChild) {
-      wishlist.removeChild(wishlist.firstChild);
-    }
-
-    items.forEach((item) => wishlist.appendChild(item));
-
-    // Save the wishlist after being sorted
+    wishListDiv.innerHTML = "";
+    items.forEach((item) => wishListDiv.appendChild(item));
     saveWishlistToStorage();
   });
 
-// Save wishlist to local storage, needs to be debugged, does not work...
-function saveWishlistToStorage() {
-  const wishlist = document.getElementById("wish-list");
-  const items = Array.from(wishlist.children).map((item) => {
-    const link = item.children[0].tagName === "A" ? item.children[0].href : "";
-    return {
-      wish: item.children[0].textContent,
-      price: item.children[1].textContent,
-      link: link,
-      date: item.children[2].textContent,
-    };
-  });
-  localStorage.setItem("wishlist", JSON.stringify(items));
-}
-
-// Get from local storage
-function loadWishlistFromStorage() {
-  const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-  const wishlistContainer = document.getElementById("wish-list");
-
-  // Loop the saved wishlist
-  wishlist.forEach((item) => {
-    const newItem = createWishlistItem(
-      item.wish,
-      item.price,
-      item.link,
-      item.date
-    );
-    wishlistContainer.appendChild(newItem);
-  });
-}
-
-// Load when the page loads
-window.onload = loadWishlistFromStorage;
-
+  // Load the wishlist when the page loads
+  loadWishlistFromStorage();
+});
 //To do:
 
 //Debugg saving to local storage

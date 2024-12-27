@@ -206,3 +206,4 @@ window.onload = loadWishlistFromStorage;
 //Fix category bar over the wish list/below the hamburger sorting menue
 //Make the category bar move together with the categories so that [price number] is always beneath price etc.
 //Clean up comments to make it look more serious/profesional lol lol
+//-
